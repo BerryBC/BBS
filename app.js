@@ -10,12 +10,13 @@ var crypto = require('crypto');
 
 var indexRouter = require('./routes/index');
 var classMsg = require('./module/classMessage');
+var classCom = require('./module/common');
 
 var app = express();
 
 // 伪初始化信息
 msgMsg = new classMsg();
-
+comCom = new classCom();
 
 
 // view engine setup
@@ -31,7 +32,7 @@ app.use('/', indexRouter);
 
 // 请求提交留言的处理
 app.post('/commit', function (req, res) {
-	let objInsert = { user: req.body.name, ct: req.body.ct, ip: req.ip };
+	let objInsert = { user: req.body.name, ct: req.body.ct, ip: comCom.getIP(req) };
 	let objF = { message: 'ok' };
 	msgMsg.insertMSG(objInsert);
 	res.end(JSON.stringify(objF));
@@ -40,7 +41,7 @@ app.post('/commit', function (req, res) {
 //获取最新信息
 app.get('/getnow', function (req, res) {
 	let objF = { message: '', msg: [] };
-	let md5Req = crypto.createHash('md5').update(req.ip + (req.headers['user-agent'])).digest('hex');
+	let md5Req = crypto.createHash('md5').update(comCom.getIP(req) + (req.headers['user-agent'])).digest('hex');
 	if (md5Req == req.cookies.tokenC) {
 		objF.message = 'ok';
 		objF.msg = msgMsg.getAllMsg();
@@ -55,15 +56,15 @@ app.get('/getnow', function (req, res) {
 app.get('/getold', function (req, res) {
 	//需链接MongoDB后重写
 	let objF = { message: '', msg: [] };
-	let md5Req = crypto.createHash('md5').update(req.ip + (req.headers['user-agent'])).digest('hex');
+	let md5Req = crypto.createHash('md5').update(comCom.getIP(req) + (req.headers['user-agent'])).digest('hex');
 
 	if (md5Req == req.cookies.tokenC) {
-		msgMsg.loadOldMSG(req.query.gettime,cbGotOldMsg);		
+		msgMsg.loadOldMSG(req.query.gettime, cbGotOldMsg);
 		function cbGotOldMsg(arrResult) {
-			if(arrResult.length>0){
+			if (arrResult.length > 0) {
 				objF.message = 'ok';
-				objF.msg=arrResult;
-			}else{
+				objF.msg = arrResult;
+			} else {
 				objF.message = 'nt';
 			};
 			res.end(JSON.stringify(objF));
