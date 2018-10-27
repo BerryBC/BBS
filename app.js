@@ -22,6 +22,7 @@ comCom = new classCom();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.set('trust proxy', 'loopback');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -41,7 +42,7 @@ app.post('/commit', function (req, res) {
 //获取最新信息
 app.get('/getnow', function (req, res) {
 	let objF = { message: '', msg: [] };
-	let md5Req = crypto.createHash('md5').update(comCom.getIP(req) + (req.headers['user-agent'])).digest('hex');
+	let md5Req = crypto.createHash('md5').update( (req.headers['user-agent'])).digest('hex');
 	if (md5Req == req.cookies.tokenC) {
 		objF.message = 'ok';
 		objF.msg = msgMsg.getAllMsg();
@@ -56,7 +57,7 @@ app.get('/getnow', function (req, res) {
 app.get('/getold', function (req, res) {
 	//需链接MongoDB后重写
 	let objF = { message: '', msg: [] };
-	let md5Req = crypto.createHash('md5').update(comCom.getIP(req) + (req.headers['user-agent'])).digest('hex');
+	let md5Req = crypto.createHash('md5').update( (req.headers['user-agent'])).digest('hex');
 
 	if (md5Req == req.cookies.tokenC) {
 		msgMsg.loadOldMSG(req.query.gettime, cbGotOldMsg);
