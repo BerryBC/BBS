@@ -87,13 +87,13 @@ $(function () {
 	//即时获取当前信息
 	function funGetUpdate() {
 		$.ajax({
-			url: "/getnow",
+			url: "getnow",
 			type: "GET",
 			dataType: "json",
 			success: function (data) {
 				if (data.message == 'ok') {
 					let arrGotMsg = data.msg.sort(gbVar.compareForTimeP);
-					arrGotMsg.forEach(eleMsg => {
+					arrGotMsg.forEach(function (eleMsg) {
 						if (!gbVar.dictMsg[eleMsg._id]) {
 							gbVar.dictMsg[eleMsg._id] = true;
 							gbVar.addMessage(eleMsg, 0);
@@ -115,21 +115,21 @@ $(function () {
 
 
 	//滚动刷新
-	window.onscroll = () => {
+	window.onscroll = function()  {
 		let intNowTop = document.documentElement.scrollTop || document.body.scrollTop;
 		let intWinH = document.documentElement.clientHeight || document.body.clientHeight;
 		let intBodyH = document.documentElement.offsetHeight || document.body.offsetHeight;
 		if (intBodyH < (intNowTop + intWinH + 400) && !gbVar.bolLoading) {
 			gbVar.bolLoading = true;
 			$.ajax({
-				url: "/getold",
+				url: "getold",
 				type: "GET",
 				dataType: "json",
 				data: { gettime: gbVar.dateFirst },
 				success: function (data) {
 					if (data.message == 'ok') {
 						let arrGotMsg = data.msg.sort(gbVar.compareForTimeN);
-						arrGotMsg.forEach(eleMsg => {
+						arrGotMsg.forEach(function(eleMsg) {
 							if (!gbVar.dictMsg[eleMsg._id]) {
 								gbVar.dictMsg[eleMsg._id] = true;
 								gbVar.addMessage(eleMsg, 1);
@@ -145,14 +145,14 @@ $(function () {
 					}
 					else {
 						console.log('错误了。');
-						setTimeout(() => {
+						setTimeout(function()  {
 							gbVar.bolLoading = false;
 						}, 3000);
 					};
 				},
 				error: function (err) {
 					console.log(err);
-					setTimeout(() => {
+					setTimeout(function()  {
 						gbVar.bolLoading = false;
 					}, 3000);
 				}
@@ -172,7 +172,7 @@ $(function () {
 		btnSubmit.attr('disabled', true);
 		btnSubmit.text('提交中...');
 		$.ajax({
-			url: "/commit",
+			url: "commit",
 			type: "POST",
 			dataType: "json",
 			data: {

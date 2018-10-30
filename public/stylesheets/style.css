@@ -150,7 +150,8 @@
 footer {
   text-align: center;
   padding: 20px 0;
-  background-color: rgba(82, 14, 70, 0.9); }
+  background-color: rgba(82, 14, 70, 0.9); 
+}
 
 
 .btn-circle-scroll {
@@ -193,7 +194,9 @@ footer {
   -moz-animation-iteration-count: infinite;
   -moz-animation-timing-function: linear; }
   
-  
+footer img {
+  max-width: 200px;
+}
   
   
   
@@ -212,8 +215,9 @@ footer {
  ****************************/  
 
   
-body {
+body,html {
   background: #FFF9FF; 
+  width: 100%;
   /* margin-top: 39px; */
 }
 
@@ -223,18 +227,21 @@ body {
   
 
 html{
-	  background: rgba(82, 14, 70, 0.9); }
+  background: rgba(82, 14, 70, 0.9); 
+}
+
   
 /****************************
  * Font    			*
  ****************************/
  
  address {
-    margin-bottom: 20px;
-    font-style: normal;
-    line-height: 2;
-    color: #FFE0FF;
-  font-family: Trebuchet MS, snas-serif;}
+  margin-bottom: 20px;
+  font-style: normal;
+  line-height: 2;
+  color: #FFE0FF;
+  font-family: Trebuchet MS, snas-serif;
+}
 
   
   
@@ -281,11 +288,13 @@ section h4 {
   
   
 section p {
-    font-size: 15px;
-    padding: 0px 20px 0px 0px;
-    color: #777;
-    line-height: 1.8em;
-    margin: 1em 0 0 0;}
+  font-size: 15px;
+  padding: 0px 20px 0px 0px;
+  color: #777;
+  line-height: 1.8em;
+  margin: 1em 0 0 0;
+}
+
 
 .company-social a:hover {
   -webkit-animation: fadeIn 0.5s ease-in-out;
@@ -308,5 +317,19 @@ section p {
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background-color: #f5d5f5;
     border-right: 1px solid #eee;
+  }
+}
+
+
+@media (max-width: 575.98px) {
+  .card-footer,.card-text,.form-control {
+    font-size: 0.8rem;
+  }
+  .card-title,h5 {
+    font-size: 1.13rem;
+  }
+
+  .col-form-label {
+	  font-size: 0.9rem;
   }
 }
