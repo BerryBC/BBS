@@ -66,7 +66,7 @@ app.get('/getold', function (req, res) {
 	let md5Req = crypto.createHash('md5').update((req.headers['user-agent'])).digest('hex');
 
 	if (md5Req == req.cookies.tokenC) {
-		msgMsg.loadOldMSG(req.query.gettime, cbGotOldMsg);
+		msgMsg.loadOldMSG(parseInt(req.query.gettime), cbGotOldMsg);
 		function cbGotOldMsg(arrResult) {
 			if (arrResult.length > 0) {
 				objF.message = 'ok';
