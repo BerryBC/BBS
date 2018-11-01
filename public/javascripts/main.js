@@ -90,6 +90,7 @@ $(function () {
 			url: "getnow",
 			type: "GET",
 			dataType: "json",
+			data: { gettime: gbVar.dateLast },
 			success: function (data) {
 				if (data.message == 'ok') {
 					let arrGotMsg = data.msg.sort(gbVar.compareForTimeP);

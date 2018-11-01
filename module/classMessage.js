@@ -9,6 +9,7 @@ let classMessage = function () {
 	let that = this;
 	let arrMsg = [];
 	let intMax = 20;
+	let dateNow = new Date(0);
 	this.CheckSen = function () {
 		if (arrMsg.length > intMax) {
 			arrMsg.splice(intMax, arrMsg.length - intMax);
@@ -16,6 +17,9 @@ let classMessage = function () {
 	};
 	this.PushIn = function (eleForPush) {
 		arrMsg.unshift(eleForPush);
+		if (dateNow < eleForPush.time) {
+			dateNow = eleForPush.time;
+		};
 		this.CheckSen();
 	};
 	this.setMax = function (intWantMax) {
@@ -24,6 +28,10 @@ let classMessage = function () {
 	this.getAllMsg = function () {
 		return arrMsg;
 	};
+	this.getNow = function () {
+		return dateNow;
+	};
+
 	this.insertMSG = function (eleMSG) {
 		MongoClient.connect(url, { useNewUrlParser: true }, (err, db) => {
 			if (err) throw err;
@@ -41,6 +49,7 @@ let classMessage = function () {
 			if (err) throw err;
 			let dbo = db.db(jsonCFG.dbName);
 			dateTime = new Date(dateTime);
+
 			//搜索代码！！！
 			dbo.collection(jsonCFG.msgcol).find({ time: { $lt: dateTime } }).sort({ time: -1 }).limit(10).toArray(function (err, result) {
 				if (err) throw err;
