@@ -90,7 +90,7 @@ $(function () {
 			url: "getnow",
 			type: "GET",
 			dataType: "json",
-			data: { gettime: gbVar.dateLast },
+			data: { gettime: gbVar.dateLast.valueOf() },
 			success: function (data) {
 				if (data.message == 'ok') {
 					let arrGotMsg = data.msg.sort(gbVar.compareForTimeP);
@@ -126,7 +126,7 @@ $(function () {
 				url: "getold",
 				type: "GET",
 				dataType: "json",
-				data: { gettime: gbVar.dateFirst },
+				data: { gettime: gbVar.dateFirst.valueOf() },
 				success: function (data) {
 					if (data.message == 'ok') {
 						let arrGotMsg = data.msg.sort(gbVar.compareForTimeN);

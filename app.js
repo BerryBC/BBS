@@ -44,9 +44,12 @@ app.get('/getnow', function (req, res) {
 	let objF = { message: '', msg: [] };
 	let md5Req = crypto.createHash('md5').update((req.headers['user-agent'])).digest('hex');
 	if (md5Req == req.cookies.tokenC) {
-		let dateClientNow = new Date(req.query.gettime);
+		let dateClientNow = new Date(parseInt(req.query.gettime));
 		objF.message = 'ok';
-		if (msgMsg.getNow().toString() > dateClientNow.toString()) {
+		// console.log('服务器时间:' + msgMsg.getNow().valueOf());
+		// console.log('客户端时间:' + dateClientNow.valueOf());
+		// console.log('客户端上传文本:' + req.query.gettime);
+		if (msgMsg.getNow() > dateClientNow) {
 			objF.msg = msgMsg.getAllMsg();
 		};
 		res.end(JSON.stringify(objF));
