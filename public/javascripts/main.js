@@ -22,16 +22,24 @@ let classGBVar = function () {
 		pContent.innerText = eleMsg.ct;
 		let divTC = document.createElement('div');
 		divTC.className = 'card-body text-' + strColor;
-		divTC.append(h5Title);
-		divTC.append(pContent);
 		let divCarFoot = document.createElement('div');
 		divCarFoot.className = 'card-footer bg-transparent border-' + strColor + ' text-right'
 		divCarFoot.innerText = 'by ' + eleMsg.user + ' | at ' + eleMsg.time.toLocaleString();
-
 		let divOneCard = document.createElement('div');
 		divOneCard.className = 'card border-' + strColor + ' mb-3 MSGCard'
-		divOneCard.append(divTC);
-		divOneCard.append(divCarFoot);
+
+		if (!!window.ActiveXObject || "ActiveXObject" in window) {
+			divTC.appendChild(h5Title);
+			divTC.appendChild(pContent);
+			divOneCard.appendChild(divTC);
+			divOneCard.appendChild(divCarFoot);
+		} else {
+			divTC.append(h5Title);
+			divTC.append(pContent);
+			divOneCard.append(divTC);
+			divOneCard.append(divCarFoot);
+		};
+
 		$(divOneCard).hide();
 		if (intAP == 0) {
 			divContent.prepend(divOneCard);
@@ -90,15 +98,16 @@ $(function () {
 			url: "getnow",
 			type: "GET",
 			dataType: "json",
-			data: { gettime: gbVar.dateLast.valueOf() },
+			data: { gettime: gbVar.dateLast.valueOf(),rnd:Math.random() },
 			success: function (data) {
 				if (data.message == 'ok') {
 					let arrGotMsg = data.msg.sort(gbVar.compareForTimeP);
-					arrGotMsg.forEach(function (eleMsg) {
+					arrGotMsg.forEach(function (eleMsg) {						
 						if (!gbVar.dictMsg[eleMsg._id]) {
 							gbVar.dictMsg[eleMsg._id] = true;
 							gbVar.addMessage(eleMsg, 0);
 							gbVar.intMsg++;
+							
 						};
 					});
 				} else {
@@ -116,7 +125,7 @@ $(function () {
 
 
 	//滚动刷新
-	window.onscroll = function()  {
+	window.onscroll = function () {
 		let intNowTop = document.documentElement.scrollTop || document.body.scrollTop;
 		let intWinH = document.documentElement.clientHeight || document.body.clientHeight;
 		let intBodyH = document.documentElement.offsetHeight || document.body.offsetHeight;
@@ -130,7 +139,7 @@ $(function () {
 				success: function (data) {
 					if (data.message == 'ok') {
 						let arrGotMsg = data.msg.sort(gbVar.compareForTimeN);
-						arrGotMsg.forEach(function(eleMsg) {
+						arrGotMsg.forEach(function (eleMsg) {
 							if (!gbVar.dictMsg[eleMsg._id]) {
 								gbVar.dictMsg[eleMsg._id] = true;
 								gbVar.addMessage(eleMsg, 1);
@@ -146,14 +155,14 @@ $(function () {
 					}
 					else {
 						console.log('错误了。');
-						setTimeout(function()  {
+						setTimeout(function () {
 							gbVar.bolLoading = false;
 						}, 3000);
 					};
 				},
 				error: function (err) {
 					console.log(err);
-					setTimeout(function()  {
+					setTimeout(function () {
 						gbVar.bolLoading = false;
 					}, 3000);
 				}

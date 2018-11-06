@@ -46,11 +46,12 @@ app.get('/getnow', function (req, res) {
 	if (md5Req == req.cookies.tokenC) {
 		let dateClientNow = new Date(parseInt(req.query.gettime));
 		objF.message = 'ok';
-		// console.log('服务器时间:' + msgMsg.getNow().valueOf());
-		// console.log('客户端时间:' + dateClientNow.valueOf());
-		// console.log('客户端上传文本:' + req.query.gettime);
+		console.log('服务器时间:' + msgMsg.getNow().valueOf());
+		console.log('客户端时间:' + dateClientNow.valueOf());
+		console.log('客户端上传文本:' + req.query.gettime);
 		if (msgMsg.getNow() > dateClientNow) {
 			objF.msg = msgMsg.getAllMsg();
+			console.log('有反馈');
 		};
 		res.end(JSON.stringify(objF));
 	} else {
