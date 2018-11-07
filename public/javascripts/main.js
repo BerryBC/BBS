@@ -28,7 +28,7 @@ let classGBVar = function () {
 		let divOneCard = document.createElement('div');
 		divOneCard.className = 'card border-' + strColor + ' mb-3 MSGCard'
 
-		if (!!window.ActiveXObject || "ActiveXObject" in window) {
+		if (!!window.ActiveXObject || "ActiveXObject" in window||!!document.append) {
 			divTC.appendChild(h5Title);
 			divTC.appendChild(pContent);
 			divOneCard.appendChild(divTC);
